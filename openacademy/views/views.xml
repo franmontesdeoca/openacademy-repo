@@ -1,6 +1,6 @@
 <odoo>
             <!-- override the automatically generated list view for courses -->
-    <record model="ir.ui.view" id="course_tree_view">
+    <record model="ir.ui.view" id="course_form_view">
         <field name="name">course.form</field>
         <field name="model">openacademy.course</field>
         <field name="arch" type="xml">
@@ -10,13 +10,12 @@
                 <field name="name"/>
                 <field name="responsibe_id"/>
               </group>
-            </sheet>
             <notebook>
               <page string="Description">
                 <field name="description"/>
               </page>
           
-              <page string="Courses">
+              <page string="Class">
                 <field name="session_ids" nolabel="1">
                   <tree string="Registered sessions">
                     <field name="name"/>
@@ -25,7 +24,7 @@
                 </field>
               </page>
             </notebook>
-
+            </sheet>
           </form>
         </field>
     </record>
@@ -80,6 +79,8 @@
                             <field name="course_id"/>
                             <label for="attendee_ids"/>
                             <field name="attendee_ids" nolabel="1"/>
+                            <label for="account_ids"/>
+                            <field name="account_ids" nolabel="1"/>
                         </group>
                     </sheet>
                 </form>
@@ -97,6 +98,7 @@
                   <field name="instructor_id"/>
                   <field name="course_id"/>
                   <field name="attendee_ids"/>
+                  <field name="account_ids"/>
                 </tree>
             </field>
         </record>
