@@ -1,0 +1,259 @@
+<odoo>
+            <!-- override the automatically generated list view for history -->
+    <record model="ir.ui.view" id="history_form_view">
+        <field name="name">history.form</field>
+        <field name="model">medical.history</field>
+        <field name="arch" type="xml">
+          <form string ="History Form">
+            <sheet>
+
+                <group>
+                    <group>
+                        <field name="name"/>
+                        <field name="identification_card"/>
+                        <field name="responsibe_id"/>
+                        <field name="type_id"/>
+                        <field name="birth_date"/>
+                        <field name="home"/>
+                    </group>
+                    <group>
+                        <field name="mail"/>
+                        <field name="phone"/>
+                        <field name="insurance"/>
+                        <field name="sex"/>
+                        <field name="warehouse_id" />
+                        <field name="other_data"/>
+                    </group>
+                </group>
+ 
+            <notebook>
+              <page string="record">
+                <field string ="Patient Visits" name="details_ids" nolabel="1">
+                  <tree string="Registered Details" decoration-info="temperature&lt;36" decoration-danger="temperature&gt;36">
+                    <field name="name"/>
+                    <field name="pressure"/>
+                    <field name="temperature"/> 
+                    <field name="height"/>
+                    <field name="cost"/>
+                    <field name="create_date"/>
+                    <field name="state"/>
+                  </tree>
+                </field>
+              </page>
+              <page string="Diagnostic or Description">
+                <field name="description"/>
+              </page> 
+            </notebook>
+            </sheet>
+          </form>
+        </field>
+    </record>
+
+
+
+<!-- Vista de kanban -->
+    <record model="ir.ui.view" id="view_openacad_session_kanban">
+        <field name="name">openacad.session.kanban</field>
+        <field name="model">medical.history</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="type_id" class="o_kanban_mobile">
+                <field name="color"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div
+                                t-attf-class="oe_kanban_color_{{kanban_getcolor(record.color.raw_value)}}
+                                                oe_kanban_global_click_edit oe_semantic_html_override
+                                                oe_kanban_card {{record.group_fancy==1 ? 'oe_kanban_card_fancy' : ''}}">
+                            <div class="oe_dropdown_kanban">
+                                <!-- dropdown menu -->
+                                <div class="oe_dropdown_toggle">
+                                    <i class="fa fa-bars fa-lg"/>
+                                    <ul class="oe_dropdown_menu">
+                                        <li>
+                                            <a type="delete">Delete</a>
+                                        </li>
+                                        <strong>
+                                                <field name="sex" widget="label_selection" options="{'classes': {'female': 'default', 'male': 'default', 'none': 'danger', 'waiting': 'warning', 'others': 'warning', 'partially_available': 'warning', 'done': 'success'}}"/>
+                                        </strong>
+                                        <li>
+                                            <ul class="oe_kanban_colorpicker"
+                                                data-field="color"/>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="oe_clear"></div>
+                            </div>
+                            <div t-attf-class="oe_kanban_content">
+                                <!-- title -->
+                                Name
+                                <field name="name"/>
+                                <br/>
+                                Mail:
+                                <field name="mail"/>
+                                <br/>
+                                Phone
+                                <field name="phone"/>
+                                <br/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+
+            
+<!-- Vista de Grafico -->
+    <record model="ir.ui.view" id="openacademy_session_graph_view">
+        <field name="name">openacademy.session.graph</field>
+        <field name="model">medical.history</field>
+        <field name="arch" type="xml">
+            <graph string="Participations by Courses">
+                <field name="name"/>
+                <field name="attendees_count" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+
+        <!-- override the automatically generated list view for history -->
+    <record model="ir.ui.view" id="history_tree_view">
+        <field name="name">history.tree</field>
+        <field name="model">medical.history</field>
+        <field name="arch" type="xml">
+            <tree string="History Tree">
+                <field name="name" string="Patient"/>
+                <field name="identification_card"/>
+                <field name="phone"/>
+                <field name="responsibe_id"/>
+                <field name="type_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="history_search_view">
+        <field name="name">history.search</field>
+        <field name="model">medical.history</field>
+        <field name="arch" type="xml">
+            <search string="History Search">
+                <field name="name" string="Name Search"/>
+                <field name="description"/>
+            </search>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="history_list_action">
+      <field name="name">Patient</field>
+      <field name="res_model">medical.history</field>
+      <field name="view_mode">tree,form,kanban,graph</field>
+      <field name="help" type="html">
+        <p class="oe_viwe_nocontent_create">Create the first Patient</p>
+      </field>
+    </record>
+
+    <menuitem name="Clinical" id="main_history_menu"/>
+    <menuitem name="History" id="history_menu" parent="main_history_menu"/>
+    <menuitem name="Clinical Histories" id="historys_menu" parent="history_menu" action="history_list_action"/>
+      <!-- details form view -->
+        <record model="ir.ui.view" id="details_form_view">
+            <field name="name">details.form</field>
+            <field name="model">medical.details</field>
+            <field name="arch" type="xml">
+                <form string ="Details Form">
+                    <sheet string ="Details Form">
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="date"/>
+                                <field name="pressure"/>
+                                <field name="temperature"/> 
+                            </group>
+                            <group>
+                                <field name="height"/>
+                                <field name="cost"/>
+                                <field name="state"/>  
+                                <field name="next_appointment"/> 
+                            </group>
+                        </group>
+                    <notebook>
+                    <page string="Recipe">
+                        <field string="Product Recipe" name="prod_ids" nolabel="1">
+                        <tree string="Registered details">
+                            <field name="products_id"/>
+                            <field name="quantity"/>
+                        </tree>
+                        </field>
+                    </page>
+                    <page string="Prescription">
+                        <field name="details"/> 
+                    </page>
+                    <page string="Diagnostic">
+                        <field name="diagnostic"/> 
+                    </page>
+                             
+
+                    </notebook>
+                    </sheet>
+                </form>
+
+            </field>
+        </record>
+        <record model="ir.ui.view" id="details_tree_view">
+            <field name="name">details.tree</field>
+            <field name="model">medical.details</field>
+            <field name="arch" type="xml">
+                <tree string="Details tree" >
+                  <field name="name"/>
+                  <field name="pressure"/>
+                  <field name="temperature"/>
+                  <field name="height"/>
+                  <field name="cost"/>
+                  <field name="create_date"/>
+                  <field name="state"/>
+                  
+                  
+                </tree>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="details_list_action">
+            <field name="name">Activities</field>
+            <field name="res_model">medical.details</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    <menuitem name="Configurations" id="configurations_menu" parent="history_menu"/>
+    <menuitem id="details_menu" name="Activities" parent="configurations_menu" action="details_list_action"/>
+     
+     <!-- Medical Recipe form view -->
+        <record model="ir.ui.view" id="recipe_form_view">
+            <field name="name">recipe.form</field>
+            <field name="model">medical.recipe</field>
+            <field name="arch" type="xml">
+                <form string="Recipe Form">
+                    <sheet>
+                        <group>
+                            <field name="products_id"/>
+                            <field name="quantity"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="recipe_tree_view">
+            <field name="name">recipe.tree</field>
+            <field name="model">medical.recipe</field>
+            <field name="arch" type="xml">
+                <tree string="Recipe tree">
+                  <field name="products_id"/>
+                  <field name="quantity"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="recipe_list_action">
+            <field name="name">Recipe</field>
+            <field name="res_model">medical.recipe</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+</odoo>
